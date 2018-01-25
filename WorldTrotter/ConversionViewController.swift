@@ -8,20 +8,12 @@
 
 import UIKit
 
-class ConversionViewController: UIViewController {
+class ConversionViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var celsiusLabel: UILabel!
     @IBOutlet var textField: UITextField!
     
     @IBAction func fahrenheitFieldEditingChanged(_ textField: UITextField) {
-        //celsiusLabel.text = textField.text
-        
-        //if let text = textField.text, !text.isEmpty {
-        //    celsiusLabel.text = text
-        //} else {
-        //    celsiusLabel.text = "???"
-        //}
-        
         if let text = textField.text, let value = Double(text) {
             fahrenheitValue = Measurement(value: value, unit: .fahrenheit)
         } else {
@@ -29,6 +21,7 @@ class ConversionViewController: UIViewController {
         }
     }
     
+    //Dismisses the keyboard when the background is clicked
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         textField.resignFirstResponder()
     }
@@ -49,13 +42,13 @@ class ConversionViewController: UIViewController {
     
     func updateCelsiusLable() {
         if let celsiusValue = celsiusValue {
-            //celsiusLabel.text = "\(celsiusValue.value)"
             celsiusLabel.text = numberFormatter.string(from: NSNumber(value: celsiusValue.value))
         } else {
             celsiusLabel.text = "???"
         }
     }
     
+    //Formats the number so only one decimal place is shown
     let numberFormatter: NumberFormatter = {
         let nf = NumberFormatter()
         nf.numberStyle = .decimal
@@ -64,9 +57,27 @@ class ConversionViewController: UIViewController {
         return nf
     } ()
     
+    //Only allows one decimal to be enter in text field
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        //print("Current text: \(textField.text)")
+        //print("Replacement text: \(string)")
+        
+        //return true
+        
+        let existingTextHasDecimalSeparator = textField.text?.range(of: ".")
+        let replacementTextHasDecimalSeparator = string.range(of: ".")
+        
+        if existingTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil {
+            return false
+        } else {
+            return true
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Updates Celsius label when app loads
         updateCelsiusLable()
     }
 }
