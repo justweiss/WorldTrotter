@@ -60,6 +60,36 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
     //Only allows one decimal to be enter in text field
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        let allowedCharacters = NSCharacterSet(charactersIn:"0123456789").inverted
+        let stringCharacters = string.components(separatedBy: allowedCharacters)
+        
+        let filtered = stringCharacters.joined(separator: "")
+        
+        if filtered == string {
+            return true
+        } else {
+            if string == "." {
+                let countdots = textField.text!.components(separatedBy:".").count - 1
+                if countdots == 0 {
+                    return true
+                }else{
+                    if countdots > 0 && string == "." {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }else{
+                return false
+            }
+        }
+        
+        /*
+        //print("Current text: \(textField.text)")
+        //print("Replacement text: \(string)")
+        
+        //return true
+        
         //print("Current text: \(textField.text)")
         //print("Replacement text: \(string)")
         
@@ -68,11 +98,21 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         let existingTextHasDecimalSeparator = textField.text?.range(of: ".")
         let replacementTextHasDecimalSeparator = string.range(of: ".")
         
-        if existingTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil {
+        let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
+        let compSepByCharInSet = string.components(separatedBy: aSet)
+        let numberFiltered = compSepByCharInSet.joined(separator: "")
+        //return string == numberFiltered
+        
+        //let allowedCharacters = CharacterSet.decimalDigits
+        //let characterSet = CharacterSet(charactersIn: string)
+        //return allowedCharacters.isSuperset(of: characterSet)
+        
+        if existingTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil, string != numberFiltered {
             return false
         } else {
             return true
         }
+ */
     }
     override func viewDidLoad() {
         super.viewDidLoad()
