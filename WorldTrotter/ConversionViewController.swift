@@ -59,14 +59,17 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
     
     //Only allows one decimal to be enter in text field
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        //print("Current text: \(textField.text)")
-        //print("Replacement text: \(string)")
-        
-        //return true
-        
         let existingTextHasDecimalSeparator = textField.text?.range(of: ".")
         let replacementTextHasDecimalSeparator = string.range(of: ".")
+        
+        //let aSet = NSCharacterSet(charactersIn:"0123456789.").inverted
+        //let compSepByCharInSet = string.components(separatedBy: aSet)
+       // let numberFiltered = compSepByCharInSet.joined(separator: "")
+        //return string == numberFiltered
+        
+        //let allowedCharacters = CharacterSet.decimalDigits
+        //let characterSet = CharacterSet(charactersIn: string)
+        //return allowedCharacters.isSuperset(of: characterSet)
         
         if existingTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil {
             return false
