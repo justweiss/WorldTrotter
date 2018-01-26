@@ -13,6 +13,7 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var celsiusLabel: UILabel!
     @IBOutlet var textField: UITextField!
     
+    //Convertes fahrenheit to celsius and changes textfield
     @IBAction func fahrenheitFieldEditingChanged(_ textField: UITextField) {
         if let text = textField.text, let value = Double(text) {
             fahrenheitValue = Measurement(value: value, unit: .fahrenheit)
@@ -32,6 +33,7 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //Convertes Fehrenheit to celsius
     var celsiusValue: Measurement<UnitTemperature>? {
         if let fahrenheitValue = fahrenheitValue {
             return fahrenheitValue.converted(to: .celsius)
@@ -40,6 +42,7 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //Updates Celsius label so there is numbers or ??? in the textbox
     func updateCelsiusLable() {
         if let celsiusValue = celsiusValue {
             celsiusLabel.text = numberFormatter.string(from: NSNumber(value: celsiusValue.value))
@@ -57,26 +60,37 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         return nf
     } ()
     
-    //Only allows one decimal to be enter in text field
+    //Only allows one decimal to be enter in text field and only allows number digits to be entered.
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let existingTextHasDecimalSeparator = textField.text?.range(of: ".")
-        let replacementTextHasDecimalSeparator = string.range(of: ".")
         
-        //let aSet = NSCharacterSet(charactersIn:"0123456789.").inverted
-        //let compSepByCharInSet = string.components(separatedBy: aSet)
-       // let numberFiltered = compSepByCharInSet.joined(separator: "")
-        //return string == numberFiltered
+        let allowedCharacters = NSCharacterSet(charactersIn:"0123456789").inverted
+        let stringCharacters = string.components(separatedBy: allowedCharacters)
+        let filtered = stringCharacters.joined(separator: "")
         
-        //let allowedCharacters = CharacterSet.decimalDigits
-        //let characterSet = CharacterSet(charactersIn: string)
-        //return allowedCharacters.isSuperset(of: characterSet)
-        
-        if existingTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil {
-            return false
-        } else {
+        //Checks if the string is digits and only one decimal
+        if filtered == string {
             return true
+        } else {
+            //If decimal is found
+            if string == "." {
+                //Counts how many decimals found
+                let countDecimal = textField.text!.components(separatedBy:".").count - 1
+                if countDecimal == 0 {
+                    return true
+                }else{
+                    //If more then 2 found returns false
+                    if countDecimal > 0 && string == "." {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }else{
+                return false
+            }
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
