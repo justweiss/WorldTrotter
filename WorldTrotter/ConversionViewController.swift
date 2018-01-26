@@ -31,7 +31,8 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
             updateCelsiusLable()
         }
     }
-    
+
+    //Convertes Fehrenheit to celsius
     var celsiusValue: Measurement<UnitTemperature>? {
         if let fahrenheitValue = fahrenheitValue {
             return fahrenheitValue.converted(to: .celsius)
@@ -40,6 +41,7 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //Updates Celsius label so there is numbers or ??? in the textbox
     func updateCelsiusLable() {
         if let celsiusValue = celsiusValue {
             celsiusLabel.text = numberFormatter.string(from: NSNumber(value: celsiusValue.value))
@@ -57,23 +59,26 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         return nf
     } ()
     
-    //Only allows one decimal to be enter in text field
+    //Only allows one decimal to be enter in text field and only allows number digits to be entered.
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let allowedCharacters = NSCharacterSet(charactersIn:"0123456789").inverted
         let stringCharacters = string.components(separatedBy: allowedCharacters)
-        
         let filtered = stringCharacters.joined(separator: "")
-        
+    
+        //Checks if the string is digits and only one decimal
         if filtered == string {
             return true
         } else {
+            //If decimal is found
             if string == "." {
-                let countdots = textField.text!.components(separatedBy:".").count - 1
-                if countdots == 0 {
+                //Counts how many decimals found
+                let countDecimal = textField.text!.components(separatedBy:".").count - 1
+                if countDecimal == 0 {
                     return true
                 }else{
-                    if countdots > 0 && string == "." {
+                    //If more then 2 found returns false
+                    if countDecimal > 0 && string == "." {
                         return false
                     } else {
                         return true
@@ -83,37 +88,8 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
                 return false
             }
         }
-        
-        /*
-        //print("Current text: \(textField.text)")
-        //print("Replacement text: \(string)")
-        
-        //return true
-        
-        //print("Current text: \(textField.text)")
-        //print("Replacement text: \(string)")
-        
-        //return true
-        
-        let existingTextHasDecimalSeparator = textField.text?.range(of: ".")
-        let replacementTextHasDecimalSeparator = string.range(of: ".")
-        
-        let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
-        let compSepByCharInSet = string.components(separatedBy: aSet)
-        let numberFiltered = compSepByCharInSet.joined(separator: "")
-        //return string == numberFiltered
-        
-        //let allowedCharacters = CharacterSet.decimalDigits
-        //let characterSet = CharacterSet(charactersIn: string)
-        //return allowedCharacters.isSuperset(of: characterSet)
-        
-        if existingTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil, string != numberFiltered {
-            return false
-        } else {
-            return true
-        }
- */
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
