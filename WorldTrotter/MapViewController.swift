@@ -45,6 +45,9 @@ class MapViewController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(segmentedControl)
         
+        //NSLayoutAnchors have a method that will create a constraint between two
+        //anchors, in this case between segmentedControl and the superview
+        //these are NSLayoutConstraints – top, leading, and trailing
         //Set up top margin/layout guides
         let topConstraint = segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
             constant: 8)

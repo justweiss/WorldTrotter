@@ -88,7 +88,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1513" y="134"/>
         </scene>
         <!--Map-->
         <scene sceneID="vtm-56-UtA">
@@ -98,7 +98,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wWn-Vk-4jQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1479" y="134"/>
+            <point key="canvasLocation" x="2182" y="134"/>
+        </scene>
+        <!--Web-->
+        <scene sceneID="2qA-RB-U6t">
+            <objects>
+                <viewController id="VwF-Gg-S7W" customClass="WebViewController" customModule="WorldTrotter" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Web" image="Earth" id="FKZ-iA-14F"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bl9-gK-Keg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2849" y="134"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Jh2-Jx-VCA">
@@ -113,6 +123,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="cug-Xb-JME"/>
                         <segue destination="J3G-vf-X5x" kind="relationship" relationship="viewControllers" id="lPx-Ze-R9N"/>
+                        <segue destination="VwF-Gg-S7W" kind="relationship" relationship="viewControllers" id="c9x-F5-fKZ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lqm-kZ-w6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -122,6 +133,7 @@
     </scenes>
     <resources>
         <image name="ConvertIcon" width="48" height="32"/>
+        <image name="Earth" width="49" height="49"/>
         <image name="MapIcon" width="48" height="32"/>
     </resources>
 </document>
