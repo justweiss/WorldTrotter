@@ -27,6 +27,10 @@ class MapViewController: UIViewController {
         }
     }
     
+    @objc func showUserLocation (_ button: UIButton) {
+        print("My Location clicked!")
+    }
+    
     override func loadView() {
         //Create a map view
         mapView = MKMapView()
@@ -61,6 +65,27 @@ class MapViewController: UIViewController {
         topConstraint.isActive = true
         leadingConstraint.isActive = true
         trailingConstraint.isActive = true
+        
+        let locationButton = UIButton()
+        let cornerRadius : CGFloat = 5.0
+        locationButton.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        locationButton.translatesAutoresizingMaskIntoConstraints = false;
+        locationButton.setTitle("My Location", for: .normal)
+        locationButton.setTitleColor(UIColor.blue, for: .normal)
+        locationButton.layer.borderColor = UIColor.blue.cgColor
+        locationButton.layer.cornerRadius = cornerRadius
+        view.addSubview(locationButton)
+        
+        let locationButtonTopConstraint = locationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
+        //let buttonLeadingConstraint1 = locationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 18)
+        let locationButtonTrailingConstraint = locationButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
+        
+        locationButtonTopConstraint.isActive = true
+        locationButtonTrailingConstraint.isActive = true
+        
+        locationButton.addTarget(self,
+                                   action: #selector(MapViewController.showUserLocation(_:)),
+                                   for: .touchUpInside)
     }
     
     func createLocationButton () {
@@ -75,16 +100,20 @@ class MapViewController: UIViewController {
         locationButton.layer.cornerRadius = cornerRadius
         view.addSubview(locationButton)
         
-        let buttonTopConstraint1 = locationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        let locationButtonTopConstraint = locationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                                  constant: -8)
         let margins = view.layoutMarginsGuide
-        //let buttonLeadingConstraint1 = locationButton.leadingAnchor.constraint(equalTo: margins.leadingAnchor)
-        let buttonTrailingConstraint1 = locationButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
+        //let buttonLeadingConstraint1 = locationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 18)
+        let locationButtonTrailingConstraint = locationButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
         
-        buttonTopConstraint1.isActive = true
-        buttonTrailingConstraint1.isActive = true
+        locationButtonTopConstraint.isActive = true
+        locationButtonTrailingConstraint.isActive = true
         
+        locationButton.addTarget(self,
+                                 action: #selector(MapViewController.showUserLocation(_:)),
+                                 for: .touchUpInside)
         
+        /*
         let button = UIButton();
         button.setTitle("Location", for: .normal)
         button.frame = CGRect(x: 0, y:0, width: 120, height: 60)
@@ -105,47 +134,12 @@ class MapViewController: UIViewController {
         buttonTopConstraint.isActive = true
         buttonLeadingConstraint.isActive = true
         buttonTrailingConstraint.isActive = true
+ */
     }
-    /*
-    func createLocationButton () {
-        let button = UIButton();
-        button.setTitle("Location", for: .normal)
-        button.setTitleColor(UIColor.blue, for: .normal)
-        button.frame = CGSize(width: 100, height: 100)
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        button.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        //button.center = CGPoint(x: view.bounds.width/2, y: view.bounds.height/2)
-        //button.addTarget(self, action: "buttonPressed:", for: .touchUpInside)
-        self.view.addSubview(button)
-    }
-    /*
-    func buttonPressed(sender: UIButton!) {
-        let alertView = UIAlertView();
-        alertView.addButton(withTitle: "OK");
-        alertView.title = "Alert";
-        alertView.message = "Button Pressed!!!";
-        alertView.show();
-    }
-    */
-    /*
-    func createLocationButton() {
-        let button = UIButton()
-        button.frame = CGRect(x: (view.bounds.width/2), y:(view.bounds.height/2), width: 120, height: 60)
-        button.center = self.view.center
-        button.setTitle("Location", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.darkGray
-        
-        button.layer.borderWidth = 5
-        button.layer.cornerRadius = 5
-        
-        self.view.addSubview(button)
-        
-    }
-    */*/
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        createLocationButton()
+        //createLocationButton()
         
         print("MapViewController loaded its view.")
     }
