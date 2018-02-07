@@ -9,14 +9,14 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKUIDelegate {
+class WebViewController: UIViewController /*, WKUIDelegate*/ {
     
     var webView: WKWebView!
     
     override func loadView() {
         let webConfiguration = WKWebViewConfiguration()
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        webView.uiDelegate = self
+        //webView.uiDelegate = self
         view = webView
     }
     override func viewDidLoad() {
