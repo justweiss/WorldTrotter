@@ -12,8 +12,10 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
     
     var mapView: MKMapView!
-    //var curLocation: CLLocationCoordinate2D? = nil
+    var curLocation: CLLocationCoordinate2D? = nil
     let locationManger = CLLocationManager()
+    var zoomedToUsersLocation: Bool = false
+    var defaultRegion: MKCoordinateRegion?
     
     //Allows user to change the map type
     @objc func mapTypeChanged (_ segControl: UISegmentedControl) {
@@ -28,18 +30,43 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             break
         }
     }
+    
     func mapView (_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         print("Mapview user location")
+        //mapView.showAnnotations([userLocation], animated: true)
+        //mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+        
+        if !zoomedToUsersLocation {
+            zoomedToUsersLocation = true
+            //mapView.showAnnotations([userLocation], animated: true)
+            mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+        }
     }
     
     @objc func showUserLocation (_ button: UIButton) {
         print("My Location clicked!")
-        self.mapView.showsUserLocation = true
+        if self.mapView.showsUserLocation == true {
+            zoomedToUsersLocation = false
+            self.mapView.showsUserLocation = false
+            let centerRegion: CLLocationCoordinate2D = CLLocationCoordinate2D.init(latitude: 38.824378723542935, longitude: -95.785579999999968)
+            let spanRegion: MKCoordinateSpan = MKCoordinateSpan.init(latitudeDelta: 74.276568257016478, longitudeDelta: 55.355627271380087)
+            //self.mapView.region.center = centerRegion
+            //self.mapView.region.span = spanRegion
+            self.mapView.setRegion(MKCoordinateRegion.init(center: centerRegion, span: spanRegion), animated: true)
+            //let viewRegion = MKCoordinateRegionMakeWithDistance(200, 200, 200)
+            //mapView.setRegion(viewRegion, animated: false)
+        } else {
+            print(self.mapView.region)
+            self.mapView.showsUserLocation = true
+        }
     }
     
     override func loadView() {
         //Create a map view
         mapView = MKMapView()
+        defaultRegion = mapView.region
+        
+        print("\(self.mapView.region) First THEN SPAN: \(self.mapView.region.span)")
         
         //Set it as *the* view of this view controller
         view = mapView
@@ -96,6 +123,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         locationButton.addTarget(self,
                                    action: #selector(MapViewController.showUserLocation(_:)),
                                    for: .touchUpInside)
+        print("\(self.mapView.region) THEN SPAN: \(self.mapView.region.span)")
         
     }
     
