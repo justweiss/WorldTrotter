@@ -92,24 +92,27 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        //Input hours
         let date = NSDate()
         let hours = Calendar.current.component(.hour, from: date as Date)
         
+        //Makes screen dark at night and light during the day
         let light = UIColor(red:0.96, green:0.96, blue:0.95, alpha:1.0)
         let dark = UIColor(red:0.50, green:0.50, blue:0.50, alpha:1.0)
-        print("\(hours) is the hour")
+        NSLog("%i is the hour", hours)
         switch hours {
-        case 0...6, 18...23:
-            view.backgroundColor = dark
-        default:
-            view.backgroundColor = light
+            case 0...6, 18...23:
+                view.backgroundColor = dark
+            default:
+                view.backgroundColor = light
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("ConversionViewController loaded its view.")
+        NSLog("ConversionViewController loaded its view.")
         
         //Updates Celsius label when app loads
         updateCelsiusLable()

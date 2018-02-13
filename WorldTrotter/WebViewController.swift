@@ -9,19 +9,20 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController /*, WKUIDelegate*/ {
+class WebViewController: UIViewController {
     
     var webView: WKWebView!
     
+    //Creates webView
     override func loadView() {
         let webConfiguration = WKWebViewConfiguration()
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        //webView.uiDelegate = self
         view = webView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Goes to bignerdranch.com website
         let myURL = URL(string: "https://www.bignerdranch.com")
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
