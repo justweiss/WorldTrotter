@@ -30,6 +30,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     var pinLocation: [location] = []
+    var pinCount: Int = 0
+    var savedUsersLocationBeforePin: Bool = false
     
     //Allows user to change the map type
     @objc func mapTypeChanged (_ segControl: UISegmentedControl) {
@@ -56,10 +58,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @objc func showUserLocation (_ button: UIButton) {
         print("My Location clicked!")
         if self.mapView.showsUserLocation == true {
-            zoomedToUsersLocation = false
             self.mapView.showsUserLocation = false
+            zoomedToUsersLocation = false
             //if centerRegion != nil, spanRegion != nil ??????
-            self.mapView.setRegion(MKCoordinateRegion.init(center: centerRegion!, span: spanRegion!), animated: true)
+            //self.mapView.setRegion(MKCoordinateRegion.init(center: centerRegion!, span: spanRegion!), animated: true)
         } else {
             centerRegion = self.mapView.region.center
             spanRegion = self.mapView.region.span
@@ -68,13 +70,47 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @objc func mapPins (_ button: UIButton) {
-        print("PIN button")
+        NSLog("PIN button")
         print(self.mapView.region)
-        let newPin = MKPointAnnotation()
+        if !savedUsersLocationBeforePin {
+            centerRegion = self.mapView.region.center
+            spanRegion = self.mapView.region.span
+            savedUsersLocationBeforePin = true
+        }
+        if pinCount <= 3 {
+            if pinCount == 3 {
+                if self.mapView.showsUserLocation == true {
+                    NSLog("Showing users location")
+                    mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+                } else {
+                    self.mapView.setRegion(MKCoordinateRegion.init(center: centerRegion!, span: spanRegion!), animated: true)
+                    NSLog("NOT Showing users location")
+                }
+                NSLog("\(pinCount), count at ==3")
+                pinCount = 0
+                savedUsersLocationBeforePin = false
+            } else {
+                self.mapView.setRegion(MKCoordinateRegion.init(center: CLLocationCoordinate2D.init(latitude: pinLocation[pinCount].latitude, longitude: pinLocation[pinCount].longitude), span: MKCoordinateSpan.init(latitudeDelta: pinLocation[pinCount].latitudeDelta, longitudeDelta: pinLocation[pinCount].longitudeDelta)), animated: true)
+                NSLog("Location number: \(pinCount)")
+                pinCount += 1
+            }
+        }
+        //let newPin = MKPointAnnotation()
+        /*
         self.mapView.setRegion(MKCoordinateRegion.init(center: CLLocationCoordinate2D.init(latitude: pinLocation[2].latitude, longitude: pinLocation[2].longitude), span: MKCoordinateSpan.init(latitudeDelta: pinLocation[2].latitudeDelta, longitudeDelta: pinLocation[2].longitudeDelta)), animated: true)
         let location = CLLocationCoordinate2D.init(latitude: pinLocation[2].latitude, longitude: pinLocation[2].longitude)
         newPin.coordinate = location
         mapView.addAnnotation(newPin)
+ */
+    }
+    func createPins() {
+        print(pinLocation[1].latitude)
+        for i in 0..<pinLocation.count {
+            let newPin = MKPointAnnotation()
+            let location = CLLocationCoordinate2D.init(latitude: pinLocation[i].latitude, longitude: pinLocation[i].longitude)
+            newPin.coordinate = location
+            mapView.addAnnotation(newPin)
+        }
     }
     
     func createButtonMyLocation() {
@@ -133,6 +169,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         pinLocation.append(MapViewController.location(name: "New York", latitude: 40.712775000022305, longitude: -74.005972999999955, latitudeDelta: 0.021697083288067631, longitudeDelta: 0.016050341136121915, pinCreated: false))
         pinLocation.append(MapViewController.location(name: "Current Location", latitude: 35.972384000023808, longitude: -79.99530799999998, latitudeDelta: 0.023165845127650186, longitudeDelta: 0.016050341136136126, pinCreated: false))
         pinLocation.append(MapViewController.location(name: "St. Thomas", latitude: 18.331090300027924, longitude: -64.918728399999978, latitudeDelta: 0.027171985141809074, longitudeDelta: 0.016050341136121915, pinCreated: false))
+        
+        createPins()
         
         let segmentedControl = UISegmentedControl(items: ["Standard", "Hybrid", "Satellite"])
         segmentedControl.backgroundColor = UIColor.white.withAlphaComponent(0.5)
