@@ -110,6 +110,64 @@
             </objects>
             <point key="canvasLocation" x="2849" y="134"/>
         </scene>
+        <!--Quiz-->
+        <scene sceneID="HqG-vg-mgC">
+            <objects>
+                <viewController id="gqY-AM-4Qj" customClass="QuizViewController" customModule="WorldTrotter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Zwe-1i-uK4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="???" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5U-PD-eDH">
+                                <rect key="frame" x="175" y="97" width="25" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="???" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWV-ct-GS8">
+                                <rect key="frame" x="175" y="239" width="25" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NEN-B5-e7A">
+                                <rect key="frame" x="141" y="268" width="93" height="30"/>
+                                <state key="normal" title="Show Answer"/>
+                                <connections>
+                                    <action selector="showAnswer:" destination="gqY-AM-4Qj" eventType="touchUpInside" id="vZO-Fc-E36"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o9p-HE-t1b">
+                                <rect key="frame" x="138" y="126" width="98" height="30"/>
+                                <state key="normal" title="Next Question"/>
+                                <connections>
+                                    <action selector="showNextQuestion:" destination="gqY-AM-4Qj" eventType="touchUpInside" id="Ouu-M5-vAh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NEN-B5-e7A" firstAttribute="top" secondItem="PWV-ct-GS8" secondAttribute="bottom" constant="8" id="CE2-Gf-oPF"/>
+                            <constraint firstItem="e5U-PD-eDH" firstAttribute="top" secondItem="491-Y3-y9q" secondAttribute="top" constant="77" id="Og7-Ro-MAv"/>
+                            <constraint firstItem="PWV-ct-GS8" firstAttribute="centerX" secondItem="o9p-HE-t1b" secondAttribute="centerX" id="Que-ot-D1p"/>
+                            <constraint firstItem="NEN-B5-e7A" firstAttribute="centerX" secondItem="o9p-HE-t1b" secondAttribute="centerX" id="RJX-wJ-D8c"/>
+                            <constraint firstItem="e5U-PD-eDH" firstAttribute="centerX" secondItem="o9p-HE-t1b" secondAttribute="centerX" id="U4Z-72-U9j"/>
+                            <constraint firstItem="PWV-ct-GS8" firstAttribute="top" secondItem="o9p-HE-t1b" secondAttribute="bottom" constant="83" id="Um3-JW-j5F"/>
+                            <constraint firstItem="e5U-PD-eDH" firstAttribute="centerX" secondItem="Zwe-1i-uK4" secondAttribute="centerX" id="aBL-yv-Cae"/>
+                            <constraint firstItem="o9p-HE-t1b" firstAttribute="top" secondItem="e5U-PD-eDH" secondAttribute="bottom" constant="8" id="eBc-RV-OiB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="491-Y3-y9q"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Quiz" image="Quiz" id="nr8-WB-rIN"/>
+                    <connections>
+                        <outlet property="answerLabel" destination="PWV-ct-GS8" id="gMf-gH-TJ0"/>
+                        <outlet property="questionLabel" destination="e5U-PD-eDH" id="b5H-lL-H9H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jDM-KI-oQf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3542" y="134"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Jh2-Jx-VCA">
             <objects>
@@ -124,6 +182,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="cug-Xb-JME"/>
                         <segue destination="J3G-vf-X5x" kind="relationship" relationship="viewControllers" id="lPx-Ze-R9N"/>
                         <segue destination="VwF-Gg-S7W" kind="relationship" relationship="viewControllers" id="c9x-F5-fKZ"/>
+                        <segue destination="gqY-AM-4Qj" kind="relationship" relationship="viewControllers" id="FbA-BH-Npa"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lqm-kZ-w6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -133,7 +192,8 @@
     </scenes>
     <resources>
         <image name="ConvertIcon" width="48" height="32"/>
-        <image name="Earth" width="49" height="49"/>
+        <image name="Earth" width="23" height="23"/>
         <image name="MapIcon" width="48" height="32"/>
+        <image name="Quiz" width="24" height="24"/>
     </resources>
 </document>
