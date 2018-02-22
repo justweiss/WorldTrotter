@@ -66,6 +66,10 @@ class QuizViewController: UIViewController {
     //Loads first question on start up
     override func viewDidLoad() {
         super.viewDidLoad()
+        questionLabel.lineBreakMode = .byWordWrapping
+        questionLabel.numberOfLines = 0
+        answerLabel.lineBreakMode = .byWordWrapping
+        answerLabel.numberOfLines = 0
         questionLabel.text = questions[currentQuestionIndex]
     }
 }
