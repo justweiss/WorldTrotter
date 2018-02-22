@@ -13,6 +13,7 @@ class QuizViewController: UIViewController {
     
     @IBOutlet var questionLabel: UILabel!
     @IBOutlet var answerLabel: UILabel!
+    var currentQuestionIndex: Int = 0
     
     //String for question
     let questions: [String] = [
@@ -44,8 +45,6 @@ class QuizViewController: UIViewController {
         "Archie, created in 1990 by Alan Emtage"
     ]
     
-    var currentQuestionIndex: Int = 0
-    
     //Next question button
     @IBAction func showNextQuestion(_ sender: UIButton) {
         currentQuestionIndex += 1
@@ -55,12 +54,36 @@ class QuizViewController: UIViewController {
         let question: String = questions[currentQuestionIndex]
         questionLabel.text = question
         answerLabel.text = "???"
+        
+        animateLabelTransitions()
     }
     
     //Shows answer button
     @IBAction func showAnswer(_ sender: UIButton) {
         let answer: String = answers[currentQuestionIndex]
         answerLabel.text = answer
+    }
+    
+    func animateLabelTransitions() {
+        /*
+        let animationClosure = { () -> Void in
+            self.questionLabel.alpha = 1
+        }
+        
+        //Animate the alpha
+        UIView.animate(withDuration: 0.5, animations: animationClosure)
+         */
+        //Animate the alpha
+        UIView.animate(withDuration: 0.5, animations: {
+            self.questionLabel.alpha = 1
+        })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //Set the label's initial alpha
+        questionLabel.alpha = 0
     }
     
     //Loads first question on start up
