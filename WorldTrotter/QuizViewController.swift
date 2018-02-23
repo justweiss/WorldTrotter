@@ -11,7 +11,11 @@ import UIKit
 class QuizViewController: UIViewController {
     
     
-    @IBOutlet var questionLabel: UILabel!
+    //@IBOutlet var questionLabel: UILabel!
+    @IBOutlet var currentQuestionLabel: UILabel!
+    @IBOutlet var currentQuestionLabelCenterXConstraint: NSLayoutConstraint!
+    @IBOutlet var nextQuestionLabel: UILabel!
+    @IBOutlet var nextQuestionLabelCenterXConstraint: NSLayoutConstraint!
     @IBOutlet var answerLabel: UILabel!
     var currentQuestionIndex: Int = 0
     
@@ -52,7 +56,8 @@ class QuizViewController: UIViewController {
             currentQuestionIndex = 0
         }
         let question: String = questions[currentQuestionIndex]
-        questionLabel.text = question
+        //questionLabel.text = question
+        nextQuestionLabel.text = question
         answerLabel.text = "???"
         
         animateLabelTransitions()
@@ -65,34 +70,55 @@ class QuizViewController: UIViewController {
     }
     
     func animateLabelTransitions() {
-        /*
-        let animationClosure = { () -> Void in
-            self.questionLabel.alpha = 1
-        }
+        
+        //Force any outstanding layout changes to occur
+        view.layoutIfNeeded()
         
         //Animate the alpha
-        UIView.animate(withDuration: 0.5, animations: animationClosure)
-         */
-        //Animate the alpha
-        UIView.animate(withDuration: 0.5, animations: {
-            self.questionLabel.alpha = 1
+        // and the center X constraints
+        let screenWidth = view.frame.width
+        self.nextQuestionLabelCenterXConstraint.constant = 0
+        self.currentQuestionLabelCenterXConstraint.constant += screenWidth
+        
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: [],
+                       animations: {
+                        self.currentQuestionLabel.alpha = 0
+                        self.nextQuestionLabel.alpha = 1
+                        
+                        self.view.layoutIfNeeded()
+        },
+                       completion: { _ in
+                        swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
+                        
+                        swap(&self.currentQuestionLabelCenterXConstraint, &self.nextQuestionLabelCenterXConstraint)
+                        
+                        self.updateOffScreenLabel()
         })
+    }
+    
+    func updateOffScreenLabel() {
+        let screenWidth = view.frame.width
+        nextQuestionLabelCenterXConstraint.constant = screenWidth
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //Set the label's initial alpha
-        questionLabel.alpha = 0
+        nextQuestionLabel.alpha = 0
     }
     
     //Loads first question on start up
     override func viewDidLoad() {
         super.viewDidLoad()
-        questionLabel.lineBreakMode = .byWordWrapping
-        questionLabel.numberOfLines = 0
+        //questionLabel.lineBreakMode = .byWordWrapping
+        //questionLabel.numberOfLines = 0
         answerLabel.lineBreakMode = .byWordWrapping
         answerLabel.numberOfLines = 0
-        questionLabel.text = questions[currentQuestionIndex]
+        currentQuestionLabel.text = questions[currentQuestionIndex]
+        
+        updateOffScreenLabel()
     }
 }
