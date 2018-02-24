@@ -18,6 +18,7 @@ class QuizViewController: UIViewController {
     @IBOutlet var nextQuestionLabelCenterXConstraint: NSLayoutConstraint!
     @IBOutlet var answerLabel: UILabel!
     var currentQuestionIndex: Int = 0
+    var screenWidth: CGFloat!
     
     //String for question
     let questions: [String] = [
@@ -76,7 +77,6 @@ class QuizViewController: UIViewController {
         
         //Animate the alpha
         // and the center X constraints
-        let screenWidth = view.frame.width
         self.nextQuestionLabelCenterXConstraint.constant = 0
         self.currentQuestionLabelCenterXConstraint.constant += screenWidth
         
@@ -122,6 +122,8 @@ class QuizViewController: UIViewController {
         answerLabel.lineBreakMode = .byWordWrapping
         answerLabel.numberOfLines = 0
         currentQuestionLabel.text = questions[currentQuestionIndex]
+        
+        screenWidth = view.frame.width
         
         updateOffScreenLabel()
     }
