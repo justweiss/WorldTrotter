@@ -82,6 +82,8 @@ class QuizViewController: UIViewController {
         
         UIView.animate(withDuration: 0.5,
                        delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 1,
                        options: [.curveLinear],
                        animations: {
                         self.currentQuestionLabel.alpha = 0
@@ -113,8 +115,10 @@ class QuizViewController: UIViewController {
     //Loads first question on start up
     override func viewDidLoad() {
         super.viewDidLoad()
-        //questionLabel.lineBreakMode = .byWordWrapping
-        //questionLabel.numberOfLines = 0
+        currentQuestionLabel.lineBreakMode = .byWordWrapping
+        currentQuestionLabel.numberOfLines = 0
+        nextQuestionLabel.lineBreakMode = .byWordWrapping
+        nextQuestionLabel.numberOfLines = 0
         answerLabel.lineBreakMode = .byWordWrapping
         answerLabel.numberOfLines = 0
         currentQuestionLabel.text = questions[currentQuestionIndex]
