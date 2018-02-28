@@ -18,7 +18,8 @@ class QuizViewController: UIViewController {
     @IBOutlet var nextQuestionLabelCenterXConstraint: NSLayoutConstraint!
     @IBOutlet var answerLabel: UILabel!
     var currentQuestionIndex: Int = 0
-    var screenWidth: CGFloat!
+    //var screenWidth: CGFloat!
+    let layoutGuide = UILayoutGuide()
     
     //String for question
     let questions: [String] = [
@@ -77,12 +78,15 @@ class QuizViewController: UIViewController {
         
         //Animate the alpha
         // and the center X constraints
-        self.nextQuestionLabelCenterXConstraint.constant = 0
-        self.currentQuestionLabelCenterXConstraint.constant += screenWidth
-        
+        //let screenWidth = view.frame.width
+        //self.nextQuestionLabelCenterXConstraint.constant = 0
+        //nextQuestionLabel.centerXAnchor.constraint(equalTo: layoutGuide.centerXAnchor).isActive = true
+        //currentQuestionLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor).isActive = true
+        //self.currentQuestionLabelCenterXConstraint.constant += screenWidth
+        /*
         UIView.animate(withDuration: 0.5,
                        delay: 0,
-                       usingSpringWithDamping: 0.8,
+                       usingSpringWithDamping: 0.5,
                        initialSpringVelocity: 1,
                        options: [.curveLinear],
                        animations: {
@@ -92,17 +96,54 @@ class QuizViewController: UIViewController {
                         self.view.layoutIfNeeded()
         },
                        completion: { _ in
-                        swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
+                        self.currentQuestionLabel.text = self.nextQuestionLabel.text
+                        self.currentQuestionLabel.alpha = 1
+                        self.currentQuestionLabelCenterXConstraint.constant = 0
+                        self.view.layoutIfNeeded()
+                        self.nextQuestionLabel.alpha = 0
+                        //swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
                         
-                        swap(&self.currentQuestionLabelCenterXConstraint, &self.nextQuestionLabelCenterXConstraint)
+                        //swap(&self.currentQuestionLabelCenterXConstraint, &self.nextQuestionLabelCenterXConstraint)
                         
-                        self.updateOffScreenLabel()
+                        //self.updateOffScreenLabel()
         })
+ */
+        
+        nextQuestionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        let layoutGuide = UILayoutGuide()
+        view.addLayoutGuide(layoutGuide)
+        layoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        layoutGuide.leadingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        currentQuestionLabel.centerXAnchor.constraint(equalTo: layoutGuide.centerXAnchor).isActive = true
+        
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 1,
+                       options: [.curveLinear],
+                       animations: {
+                        self.currentQuestionLabel.alpha = 0
+                        self.nextQuestionLabel.alpha = 1
+                        self.view.layoutIfNeeded()
+                        }) { _ in
+                            swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
+                            swap(&self.currentQuestionLabelCenterXConstraint, &self.nextQuestionLabelCenterXConstraint)
+                            self.updateOffScreenLabel()
+                        }
     }
     
     func updateOffScreenLabel() {
-        let screenWidth = view.frame.width
-        nextQuestionLabelCenterXConstraint.constant = screenWidth
+        let layoutGuide = UILayoutGuide()
+        view.addLayoutGuide(layoutGuide)
+        layoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        layoutGuide.trailingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        nextQuestionLabel.centerXAnchor.constraint(equalTo: layoutGuide.centerXAnchor).isActive = true
+        /*
+        let screenWidth =  view.frame.width
+        nextQuestionLabelCenterXConstraint.constant = -screenWidth
+        //nextQuestionLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor).isActive = true
+        //textField.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor).active = true
+ */
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,15 +156,22 @@ class QuizViewController: UIViewController {
     //Loads first question on start up
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentQuestionLabel.lineBreakMode = .byWordWrapping
-        currentQuestionLabel.numberOfLines = 0
-        nextQuestionLabel.lineBreakMode = .byWordWrapping
-        nextQuestionLabel.numberOfLines = 0
+        //currentQuestionLabel.lineBreakMode = .byWordWrapping
+        //currentQuestionLabel.numberOfLines = 0
+        //nextQuestionLabel.lineBreakMode = .byWordWrapping
+        //nextQuestionLabel.numberOfLines = 0
         answerLabel.lineBreakMode = .byWordWrapping
         answerLabel.numberOfLines = 0
-        currentQuestionLabel.text = questions[currentQuestionIndex]
         
-        screenWidth = view.frame.width
+        //nextQuestionLabelCenterXConstraint.isActive = false
+        
+        //currentQuestionLabel.text = questions[currentQuestionIndex]
+        //view.addLayoutGuide(layoutGuide)
+        //layoutGuide.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        //nextQuestionLabel.centerXAnchor.constraint(equalTo: layoutGuide.leadingAnchor).isActive = true
+        //currentQuestionLabel.centerXAnchor.constraint(equalTo: layoutGuide.trailingAnchor).isActive = true
+
+        //screenWidth = view.frame.width
         
         updateOffScreenLabel()
     }
